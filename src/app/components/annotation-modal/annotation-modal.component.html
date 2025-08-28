@@ -1,0 +1,94 @@
+<div class="modal__content">
+  <div class="modal__header">
+    <h3 class="modal__title">Добавить аннотацию</h3>
+    <button class="modal__close-btn" (click)="onCancel()" aria-label="Закрыть">×</button>
+  </div>
+
+  <div class="modal__body">
+    <form [formGroup]="form" class="modal__form">
+      <div class="modal__form-group">
+        <label class="modal__label" for="annotationType">Тип аннотации:</label>
+        <select
+          id="annotationType"
+          formControlName="annotationType"
+          class="modal__select"
+        >
+          <option value="text">Текст</option>
+          <option value="image">Изображение по ссылке</option>
+          <option value="upload">Загрузить изображение</option>
+        </select>
+      </div>
+
+      @switch (annotationType) {
+        @case ('text') {
+          <div class="modal__form-group">
+            <label class="modal__label" for="annotationContent">Текст аннотации:</label>
+            <textarea
+              id="annotationContent"
+              formControlName="annotationContent"
+              placeholder="Введите текст аннотации..."
+              class="modal__textarea"
+              rows="3"
+              maxlength="500"
+              cdkFocusInitial
+            ></textarea>
+            <div class="modal__char-count">{{ (form.get('annotationContent')?.value || '').length }}/500</div>
+          </div>
+        }
+        @case ('image') {
+          <div class="modal__form-group">
+            <label class="modal__label" for="imageUrl">URL изображения:</label>
+            <input
+              type="url"
+              id="imageUrl"
+              formControlName="imageUrl"
+              placeholder="https://example.com/image.jpg"
+              class="modal__input"
+            />
+          </div>
+        }
+        @case ('upload') {
+          <div class="modal__form-group">
+            <label class="modal__label" for="imageFile">Выберите изображение:</label>
+            <input
+              type="file"
+              id="imageFile"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              class="modal__file-input"
+            />
+            @if (selectedFile) {
+              <div class="modal__file-info">
+                <span>Выбран файл: {{ selectedFile.name }}</span>
+                <span>Размер: {{ (selectedFile.size / 1024).toFixed(1) }} KB</span>
+              </div>
+            }
+          </div>
+        }
+      }
+
+      <div class="modal__position-info">
+        <span>Позиция: X: {{ data.position.x | number:'1.0-0' }}, Y: {{ data.position.y | number:'1.0-0' }}</span>
+        <span>Страница: {{ data.pageNumber }}</span>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal__footer">
+    <button
+      class="modal__btn modal__btn--secondary"
+      (click)="onCancel()"
+      type="button"
+    >
+      Отмена
+    </button>
+    <button
+      class="modal__btn modal__btn--primary"
+      (click)="onSave()"
+      [disabled]="!isValid"
+      type="button"
+    >
+      Добавить
+    </button>
+  </div>
+</div>

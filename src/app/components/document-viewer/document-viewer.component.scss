@@ -1,0 +1,195 @@
+.document-viewer {
+  height: 100vh;
+  background-color: var(--color-light-gray);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    background: linear-gradient(135deg, var(--color-info-light), var(--color-info));
+    color: var(--text-inverse);
+    padding: var(--space-lg) var(--space-2xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--header-z-index);
+    flex-shrink: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  &__zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: var(--bg-transparent-white-10);
+    padding: var(--space-sm);
+    border-radius: var(--radius-lg);
+  }
+
+  &__zoom-level {
+    font-weight: var(--font-weight-medium);
+    min-width: 50px;
+    text-align: center;
+  }
+
+  &__zoom-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--bg-transparent-white-20);
+    color: var(--text-inverse);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    transition: var(--transition-normal);
+
+    &:hover {
+      background: var(--bg-transparent-white-30);
+      transform: scale(1.05);
+    }
+  }
+
+  &__zoom-reset-btn {
+    width: 64px;
+    height: 32px;
+    border: none;
+    background: var(--bg-transparent-white);
+    color: var(--text-inverse);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: var(--bg-transparent-white-25);
+      transform: scale(1.05);
+    }
+  }
+
+  &__save-btn {
+    background: var(--color-success);
+    color: var(--text-inverse);
+    border: none;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-normal);
+
+    &:hover {
+      background: var(--color-success-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+  }
+
+  &__content {
+    padding: var(--space-2xl);
+    width: 100%;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-info-light) var(--color-light-gray);
+    position: relative;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--color-light-gray);
+      border-radius: var(--radius-sm);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-info-light);
+      border-radius: var(--radius-sm);
+
+      &:hover {
+        background: var(--color-info);
+      }
+    }
+  }
+
+  &__content-inner {
+    padding: var(--space-2xl);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    justify-items: center;
+    align-items: start;
+    width: 100%;
+    transition: var(--transition-fast);
+    transform-origin: center top;
+    position: absolute;
+  }
+
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    color: var(--text-muted);
+  }
+
+  &__spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-lighter-gray);
+    border-top: 4px solid var(--color-info-light);
+    border-radius: var(--radius-full);
+    animation: spin 1s linear infinite;
+    margin-bottom: var(--space-lg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .document-viewer {
+    &__header {
+      flex-direction: column;
+      gap: var(--space-lg);
+      text-align: center;
+      padding: var(--space-md) var(--space-lg);
+      height: auto;
+    }
+
+    &__controls {
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    &__content {
+      padding: var(--space-lg);
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div
+  class="annotation"
+  [class.annotation--text]="annotation.type === 'text'"
+  [class.annotation--image]="annotation.type === 'image'"
+  [style.left.px]="currentPosition().x"
+  [style.top.px]="currentPosition().y"
+  [style.width.px]="annotation.width"
+  [style.height.px]="annotation.height"
+>
+  <div class="annotation__content">
+    @switch (annotation.type) {
+      @case ('text') {
+        {{ annotation.content }}
+      }
+      @case ('image') {
+        <img
+          [src]="annotation.content"
+          alt="Annotation"
+        />
+      }
+    }
+  </div>
+
+  <button
+    class="annotation__delete-btn"
+    (click)="onDelete()"
+    title="Delete annotation"
+  >
+    ×
+  </button>
+</div>

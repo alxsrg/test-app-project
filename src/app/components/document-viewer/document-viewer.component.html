@@ -1,0 +1,50 @@
+<div class="document-viewer">
+  <header class="document-viewer__header">
+    <h1 class="document-viewer__title">{{ document()?.name || 'Loading...' }}</h1>
+
+    <div class="document-viewer__controls">
+      <div class="document-viewer__zoom-controls" role="group" aria-label="Масштабирование документа">
+        <span class="document-viewer__zoom-level" aria-live="polite">{{ zoomPercentage() }}%</span>
+        <button class="document-viewer__zoom-btn" (click)="zoomOut()" title="Уменьшить масштаб"
+                aria-label="Уменьшить масштаб">
+          -
+        </button>
+        <button class="document-viewer__zoom-btn" (click)="zoomIn()" title="Увеличить масштаб"
+                aria-label="Увеличить масштаб">
+          +
+        </button>
+        <button class="document-viewer__zoom-reset-btn" (click)="resetZoom()" title="Сбросить масштаб к 100%"
+                aria-label="Сбросить масштаб к 100%">Сброс
+        </button>
+      </div>
+
+      <button class="document-viewer__save-btn" (click)="saveDocument()" title="Сохранить документ с аннотациями"
+              aria-label="Сохранить документ с аннотациями">Сохранить
+      </button>
+    </div>
+  </header>
+
+  @if (hasDocument()) {
+    <main class="document-viewer__content" role="main" aria-label="Содержимое документа">
+      <div class="document-viewer__content-inner" [style.transform]="'scale(' + zoom() + ')'">
+        @for (page of document()!.pages; track page.number) {
+          <app-page-viewer
+            [page]="page"
+            [zoom]="zoom()"
+            [annotations]="annotations()"
+            (addAnnotation)="addAnnotation($event)"
+            (updateAnnotation)="onUpdateAnnotation($event)"
+            (deleteAnnotation)="onDeleteAnnotation($event)"
+          />
+        }
+      </div>
+    </main>
+  }
+
+  @if (!hasDocument()) {
+    <div class="document-viewer__loading" role="status" aria-live="polite">
+      <div class="document-viewer__spinner" aria-hidden="true"></div>
+      <p>Загрузка документа...</p>
+    </div>
+  }
+</div>

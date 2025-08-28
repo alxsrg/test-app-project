@@ -1,0 +1,21 @@
+<div class="page-viewer"
+     (click)="onPageClick($event)"
+>
+  <img
+    [src]="page.imageUrl"
+    [alt]="'Page ' + page.number"
+    class="page-viewer__image"
+  />
+
+  @for (annotation of annotations; track annotation.id) {
+    @if (annotation.pageNumber === this.page.number) {
+      <app-annotation
+        [annotation]="annotation"
+        [zoom]="zoom"
+        (delete)="onDeleteAnnotation($event)"
+        (update)="onUpdateAnnotation($event)"
+        (click)="$event.stopPropagation()"
+      />
+    }
+  }
+</div>
